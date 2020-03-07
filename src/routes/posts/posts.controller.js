@@ -23,6 +23,20 @@ const createPost = async (req, res) => {
   });
 }
 
+const updatePost = async (req, res) => {
+  const { id } = req.params
+  const updatedPostsData = postsData.reduce((acc, curr) => {
+    if (curr.id === id) {
+      return [ ...acc, req.body ]
+    }
+
+    return [ ...acc, curr ]
+  }, [])
+
+  await writeFile("db/posts.data.json", JSON.stringify(updatedPostsData));
+  return res.json(req.body)
+}
+
 const deletePost = async (req, res) => {
   const { id } = req.params
   const modifiedPostsData = postsData.filter(post => post.id !== id)
@@ -35,5 +49,6 @@ const deletePost = async (req, res) => {
 module.exports = {
   listPosts,
   createPost,
+  updatePost,
   deletePost
 }
