@@ -12,7 +12,7 @@ const listPosts = (req, res) => {
 };
 
 const createPost = async (req, res) => {
-  const id = postsData.length + 1;
+  const id = new String(postsData.length + 1);
   const newPostsData = [ ...postsData, { id, ...req.body }]
 
   await writeFile("db/posts.data.json", JSON.stringify(newPostsData));
@@ -23,8 +23,17 @@ const createPost = async (req, res) => {
   });
 }
 
+const deletePost = async (req, res) => {
+  const { id } = req.params
+  const modifiedPostsData = postsData.filter(post => post.id !== id)
+
+  await writeFile("db/posts.data.json", JSON.stringify(modifiedPostsData));
+  return res.json({ id })
+};
+
 
 module.exports = {
   listPosts,
-  createPost
+  createPost,
+  deletePost
 }
