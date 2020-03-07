@@ -38,7 +38,7 @@ const updatePost = async (req, res) => {
 
   // Throw 404 if incorrect path
   const idCheck = postsData.find(post => post.id === id)
-  if (!id) {
+  if (!idCheck) {
     return res.status(404).json({ message: 'Invalid post id'})
   }
 
@@ -67,7 +67,7 @@ const deletePost = async (req, res) => {
 
   // Throw 404 if incorrect path
   const idCheck = postsData.find(post => post.id === id)
-  if (!id) {
+  if (!idCheck) {
     return res.status(404).json({ message: 'Invalid post id'})
   }
 
