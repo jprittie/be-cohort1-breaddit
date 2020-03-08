@@ -1,4 +1,4 @@
-const { logger } = require("../utils/logger");
+const { logger } = require('../utils/logger');
 
 const ERROR_CODES = {
   NOT_FOUND: 404,
