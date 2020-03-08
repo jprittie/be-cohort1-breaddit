@@ -1,0 +1,87 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Breaddit API",
+		"description": "A platform for discussing bread-making",
+		"version": "1.0.0"
+	},
+	"paths": {
+		"/posts": {
+			"get": {
+				"summary": "Returns a list of posts",
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"422": {
+						"description": "Validation error(s)"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"post": {
+				"summary": "Create a new post",
+				"responses": {
+					"201": {
+						"description": "New post created"
+					},
+					"422": {
+						"description": "Validation error(s)"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/posts/:id": {
+			"put": {
+				"summary": "Update a post",
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"description": "The id of an existing post"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"404": {
+						"description": "A post with the given id is not found"
+					},
+					"422": {
+						"description": "Validation error(s)"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete an existing post",
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"description": "The id of an existing post"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"404": {
+						"description": "A post with the given id is not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		}
+	}
+}
