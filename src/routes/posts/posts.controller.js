@@ -33,13 +33,19 @@ const createPost = async (req, res) => {
 };
 
 /* PUT /posts/:id controller */
-const updatePost = async (req, res) => {
+const updatePost = async (req, res, next) => {
   const { id } = req.params;
 
   // Throw 404 if incorrect path
   const idCheck = postsData.find(post => post.id === id);
   if (!idCheck) {
-    return res.status(404).json({ message: 'Invalid post id' });
+    const error = new Error(
+      JSON.stringify({
+        status: 'NOT_FOUND',
+        message: { msg: 'Invalid post id' }
+      })
+    );
+    return next(error)
   }
 
   // Throw 422 if validation errors are found
@@ -61,13 +67,19 @@ const updatePost = async (req, res) => {
 };
 
 /* DELETE /posts/:id controller */
-const deletePost = async (req, res) => {
+const deletePost = async (req, res, next) => {
   const { id } = req.params;
 
   // Throw 404 if incorrect path
   const idCheck = postsData.find(post => post.id === id);
   if (!idCheck) {
-    return res.status(404).json({ message: 'Invalid post id' });
+    const error = new Error(
+      JSON.stringify({
+        status: 'NOT_FOUND',
+        message: { msg: 'Invalid post id' }
+      })
+    );
+    return next(error)
   }
 
   const modifiedPostsData = postsData.filter(post => post.id !== id);
