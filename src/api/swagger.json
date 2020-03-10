@@ -1,0 +1,248 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Breaddit API",
+    "description": "A platform for discussing bread-making",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/posts": {
+      "get": {
+        "summary": "Returns a list of posts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPostRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "New post created"
+          },
+          "422": {
+            "description": "Validation error(s)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "put": {
+        "summary": "Update a post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": "true",
+            "description": "The id of an existing post",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A post with the given id is not found"
+          },
+          "422": {
+            "description": "Validation error(s)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an existing post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": "true",
+            "description": "The id of an existing post",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletedPostResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A post with the given id is not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PostsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "description": "An optional post body",
+                  "example": "This is my boule, there are many others like it but this one is mine."
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Good morning from me and my first sourdough loaf"
+                },
+                "score": {
+                  "type": "number",
+                  "description": "A score out of 100",
+                  "example": 92
+                },
+                "image": {
+                  "type": "URL",
+                  "description": "An optional image URL",
+                  "example": "https://b.thumbs.breadditmedia.com/eg1yG06wdR2V8IOSSmeEiFppb4zlgXWfSKrT4xIRQOg.jpg"
+                },
+                "id": {
+                  "type": "string",
+                  "example": "fdbvt9"
+                },
+                "author": {
+                  "type": "string",
+                  "example": "Chronus112110"
+                }
+              }
+            }
+          }
+        }
+      },
+      "DeletedPostResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "fdbvt9",
+            "description": "The id of the deleted post"
+          }
+        }
+      },
+      "ValidationErrorsResponse": {
+        "type": "array",
+        "items": {
+          "properties": {
+            "value": {
+              "type": "string",
+              "description": "The value entered by the user",
+              "example": "xx"
+            },
+            "msg": {
+              "type": "string",
+              "description": "A custom description of the validation error",
+              "example": "Score must be a number"
+            },
+            "param": {
+              "type": "string",
+              "description": "The name of the invalid parameter",
+              "example": "score"
+            },
+            "location": {
+              "type": "string",
+              "description": "The location where the invalid parameter was passed",
+              "example": "body"
+            }
+          }
+        }
+      },
+      "NewPostRequestBody": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "An optional post body",
+            "example": "This is my boule, there are many others like it but this one is mine."
+          },
+          "title": {
+            "type": "string",
+            "required": "true",
+            "example": "Good morning from me and my first sourdough loaf"
+          },
+          "score": {
+            "type": "number",
+            "required": "true",
+            "description": "A score out of 100",
+            "example": 92
+          },
+          "image": {
+            "type": "URL",
+            "description": "An optional image URL",
+            "example": "https://b.thumbs.breadditmedia.com/eg1yG06wdR2V8IOSSmeEiFppb4zlgXWfSKrT4xIRQOg.jpg"
+          },
+          "author": {
+            "type": "string",
+            "required": "true",
+            "example": "Chronus112110"
+          }
+        }
+      }
+    }
+  }
+}
