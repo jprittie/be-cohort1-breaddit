@@ -15,12 +15,6 @@ const listPosts = (req, res) => {
 
 /* POST /posts controller */
 const createPost = async (req, res) => {
-  // Throw 422 if validation errors are found
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-
   const id = new String(postsData.length + 1);
   const newPostsData = [...postsData, { id, ...req.body }];
 
@@ -46,12 +40,6 @@ const updatePost = async (req, res, next) => {
       })
     );
     return next(error)
-  }
-
-  // Throw 422 if validation errors are found
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
   }
 
   const updatedPostsData = postsData.reduce((acc, curr) => {
